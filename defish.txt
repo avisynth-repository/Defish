@@ -1,0 +1,67 @@
+defish (v1.1) MT for Avisynth 2.5
+(c) David Horman, 2010
+Multithreaded version (c) 2011 Andrey "Efenstor" Pivovarov
+
+This filter can be used to correct (or induce) barrel and pincushion
+distortion.
+
+USAGE
+-----
+
+The filter takes the following parameters (in addition to the input clip):
+
+[unnamed]:
+	Input clip. Must be RGB32 and have even width/height.
+
+fov:
+	useful range: -180.0 - 180.0
+	default: 0
+	The horizontal field of view, in degrees. Positive values will
+	correct barrel distortion (induce pincushioning). Negative values
+	should correct pincushion distortion (induce barreling), but note
+	that this may currently be implemented incorrectly.
+
+scale:
+        range: 0.0 - infinity
+	default: 1.0
+	An adjustment parameter which scales the image after correction.
+
+aspect:
+	range: 0.0 - infinity
+	default: 1.0
+	The pixel aspect ratio of the input clip.
+
+direction:
+	values: "x", "y"
+	This parameter restricts the correction to either horizontal or
+	vertical only.
+
+scaling:
+	values: "fitx", "fity", "fitxy"
+	This parameter automatically scales the image to fill the image
+	horizontally, vertically, or both. The "scale" parameter above is
+	still effective.
+
+	The default behaviour when using fov is to scale the image such
+	that the central area stays at the original scale.
+
+	This parameter is not effective when using the polynomial values
+	below.
+a,b,c:
+        sensible range: 0.0 - 1.0
+        Parameters for correcting distortion polynomially. These are only
+        effective when fov=0 (which is the default value).
+
+        a+b+c must be less than or equal to 1.0 when pin=true.
+
+pin:
+	boolean
+	Set this to true to correct pincushion distortion, and false to
+	correct	barrel distortion - this may seem the wrong way around but
+	it was chosen to match the behaviour of the similar parameter of
+	V.C. Mohan's DeBarrel filter.
+
+threads:
+        range: 0 - infinity
+        0 (default) sets the number of processing threads to the number of
+        autodetected CPU's/cores.
